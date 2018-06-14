@@ -14,36 +14,18 @@ $inputFiles = [
     __DIR__ . '/data/scrabble12.txt',
 ];
 
-$chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-$start = microtime(true);
 foreach ($inputFiles as $filename) {
-    $file = new SplFileObject($filename);
-    while ($file->valid()) {
-        $line = $file->fgets();
-    }
-    $file = null;
+    $ifh = new SplFileObject($filename);
+        while ($ifh->valid()) {
+            $line = trim($ifh->fgets());
+            if (empty($line))
+                continue;
+            $c = $line[0];
+            $l = strlen($line);
+            $output[$c][$l][] = $line;
+        }
+    $ofh = new SplFileObject('./output/start-with.json', 'w');
+    $ofh->fwrite(json_encode($output));
+    $ifh = null;
+    $ofh = null;
 }
-var_dump(microtime(true) - $start);
-
-function lineGenerator($file) {
-    $fh = fopen($file, 'r');
-
-    if (!$fh)
-        die('File not found or cannot be opened');
-
-    try {
-        while ($line = fgets($fh) !== false)
-            yield $line;
-    } finally {
-        fclose($fh);
-    }
-}
-
-$start = microtime(true);
-foreach ($inputFiles as $filename) {
-    foreach (lineGenerator($filename) as $line) {
-        //noop
-    }
-}
-var_dump(microtime(true) - $start);
