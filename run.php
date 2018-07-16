@@ -1,5 +1,6 @@
 <?php
 
+
 $inputFiles = [
     __DIR__ . '/data/scrabble2.txt',
     __DIR__ . '/data/scrabble3.txt',
@@ -19,6 +20,8 @@ $output = [
     'end-with'   => [],
     'words-with' => [],
 ];
+
+
 foreach ($inputFiles as $filename) {
     $ifh = new SplFileObject($filename);
     while ($ifh->valid()) {
@@ -42,8 +45,20 @@ foreach ($inputFiles as $filename) {
 
     // Store output
     foreach ($output as $set => $data) {
-        $ofh = new SplFileObject("./output/$set.json", 'w');
-        $ofh->fwrite(json_encode($data));
-        $ofh = null;
+
+        foreach($data as $char => $subdata){
+
+            $dir = "./output/$set/";
+            $filename = "./output/$set/$char.json";
+
+            if(!is_dir($dir)){
+                mkdir($dir,0777,true);
+            }
+
+            $ofh = new SplFileObject($filename, 'w');
+            $ofh->fwrite(json_encode($subdata));
+            $ofh = null;
+
+        }
     }
 }
