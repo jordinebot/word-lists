@@ -19,6 +19,7 @@ $output = [
     'start-with' => [],
     'end-with'   => [],
     'words-with' => [],
+    'word-length' => [],
 ];
 
 
@@ -40,6 +41,8 @@ foreach ($inputFiles as $filename) {
         foreach(str_split($line) as $c) {
             $output['words-with'][$c][$len][] = $line;
         }
+
+        $output['word-length'][$len][] = $line;
     }
     $ifh = null;
 
