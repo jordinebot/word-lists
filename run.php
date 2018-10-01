@@ -16,10 +16,10 @@ $inputFiles = [
 ];
 
 $output = [
-    // 'start-with' => [],
-    // 'end-with'   => [],
-    // 'words-with' => [],
-    // 'word-length' => [],
+    'start-with' => [],
+    'end-with'   => [],
+    'words-with' => [],
+    'word-length' => [],
     'consonants' => [],
     'vowels' => [],
     'ing' => [],
@@ -111,6 +111,13 @@ foreach ($inputFiles as $filename) {
             'wwf_score' => get_score($line,$wwf_points)
         );
 
+        if(isset($output['word-length'])){
+            $output['word-length'][$len][] = $entry;
+        }
+
+        if ($len > 7)
+            continue;
+
         if(isset($output['start-with'])){
             $output['start-with'][$firstChar][$len][] = $entry;
         }
@@ -123,10 +130,6 @@ foreach ($inputFiles as $filename) {
             foreach(str_split($line) as $c) {
                 $output['words-with'][$c][$len][] = $entry;
             }
-        }
-
-        if(isset($output['word-length'])){
-            $output['word-length'][$len][] = $entry;
         }
 
         if(isset($output['consonants'])){
