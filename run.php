@@ -154,7 +154,7 @@ foreach ($inputFiles as $filename) {
         }
 
         if(isset($output['qnou'])){
-            $match = preg_match('/Q[^U]/',$line);
+            $match = preg_match('/(Q[^U]|Q$)/',$line);
             if($match === 1){
                 $output['qnou'][$len][] = $entry;
             }
