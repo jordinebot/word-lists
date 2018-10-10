@@ -127,8 +127,12 @@ foreach ($inputFiles as $filename) {
         }
 
         if(isset($output['words-with'])){
+            $cs = [];
             foreach(str_split($line) as $c) {
-                $output['words-with'][$c][$len][] = $entry;
+                if (!in_array($c, $cs)) {
+                    $output['words-with'][$c][$len][] = $entry;
+                    $cs[] = $c;
+                }
             }
         }
 
